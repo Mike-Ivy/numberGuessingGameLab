@@ -1,32 +1,43 @@
-function playGuessingGame(numToGuess, totalGuesses = 10) {
-    let input;
-    let guesses = 0;
+function playGuessingGame(numToGuess,totalGuess){
 
-    input = prompt("Enter a number between 1 and 100.");
+    let countTotalGuess = 0;
+    
+    if(!totalGuess){totalGuess = 10}
+    
+    var text_to_prompt = "Enter a number between 1 and 100.";
+    
+    while(totalGuess>0){
 
-    while (guesses < totalGuesses) {
-                
-        if (input === null) {
+        totalGuess--;
+        countTotalGuess++;
+    
+        var input = prompt(text_to_prompt, input);
+    
+        if (input == null || input == "") {
             return 0;
-            break;
         }
-        else if (isNaN(input) || input === "" || !input.replace(/\s/g, '').length) {
-            input = prompt("Please Enter a number.")
+    
+        else if (isNaN(input)) {
+            text_to_prompt = "Please enter a number.";
+            totalGuess++;
+            countTotalGuess--;
         }
-        else {
-            guesses += 1;
-            if (input == numToGuess) {
-                return guesses;
-                break;
-            }
-            else if (input < numToGuess && guesses <= totalGuesses) {
-                input = prompt(input +" is too small. Guess a larger number.");
-            }
-            else if (input > numToGuess && guesses <= totalGuesses) {
-                input = prompt(input +" is too large. Guess a smaller number.");
-            }
+    
+        else if (input==numToGuess) {    
+            return countTotalGuess;
         }
+    
+        else if (input > numToGuess) {
+            text_to_prompt = input + " is too large. Guess a smaller number.";
+        }
+    
+        else if (input < numToGuess) {
+            text_to_prompt = input + " is too small. Guess a larger number.";
+        }
+    
     }
-    return 0;
+    
+    if (totalGuess==0) {
+        return 0;
+    }
 }
-playGuessingGame(5,3);
